@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XOXO - Tic Tac Toe</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e1b4b, #0f172a);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 16px;
+  }
+  .card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #f472b6, #818cf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle { color: #94a3b8; margin-bottom: 24px; font-size: 0.9rem; }
+  button {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  button:hover { opacity: 0.9; }
+  button:active { transform: scale(0.97); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  .link-box {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .link-box input { flex: 1; font-size: 0.8rem; }
+  .link-box button { width: auto; margin: 0; padding: 12px 16px; }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 24px 0;
+  }
+  .cell {
+    aspect-ratio: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .cell:hover { background: rgba(255,255,255,0.15); }
+  .cell.x { color: #f472b6; }
+  .cell.o { color: #60a5fa; }
+  .status {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    min-height: 28px;
+    font-weight: 600;
+  }
+  .you-tag {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+  }
+  .hidden { display: none !important; }
+  .waiting-dots::after {
+    content: '';
+    animation: dots 1.4s infinite;
+  }
+  @keyframes dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+  }
+  .footer-note {
+    margin-top: 18px;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="app">
+
+  <!-- HOME SCREEN -->
+  <div id="homeScreen">
+    <h1>XOXO ⨯⨯⨯</h1>
+    <p class="subtitle">Real-time 2 player Tic Tac Toe — link share koro, friend auto-join hoye jabe</p>
+    <button id="createBtn">🎮 Naya Game Baniyo</button>
+
+    <div id="shareSection" class="hidden">
+      <p class="subtitle" style="margin-top:20px;">Ei link ta friend ke dao 👇</p>
+      <div class="link-box">
+        <input type="text" id="shareLink" readonly>
+        <button id="copyBtn">Copy</button>
+      </div>
+      <p class="subtitle waiting-dots" style="margin-top:14px;">Opponent er জন্য wait kortesi</p>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="gameScreen" class="hidden">
+    <h1>XOXO</h1>
+    <div class="status" id="statusText">Loading...</div>
+    <div class="you-tag" id="youTag"></div>
+    <div class="board" id="board"></div>
+    <button id="rematchBtn" class="hidden">🔁 Rematch</button>
+    <button id="newGameBtn" class="hidden">🆕 New Game</button>
+  </div>
+
+  <p class="footer-note">Made with ❤️ — Vercel hosted</p>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
